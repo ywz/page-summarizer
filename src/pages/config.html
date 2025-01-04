@@ -33,6 +33,11 @@
             <button id="open-api-keys" class="btn btn-primary btn-sm" title="OpenAI API keys">&#x2197;</button>
           </div>
 
+          <div class="input-group">
+            <label class="input-group-text" for="baseUrl">Base URL</label>
+            <input type="text" id="baseUrl" name="baseUrl" class="form-control" />
+          </div>
+
           <div class="form-check mb-3">
             <input type="checkbox" id="debug" name="debug" class="form-check-input" />
             <label for="debug" class="form-check-label">Debug mode</label>
@@ -62,10 +67,11 @@
 
           <div class="mb-3">
             <label for="model" class="form-label">Default model</label>
-            <div class="input-group">
-              <select id="model" name="model" class="form-select"></select>
-              <button id="refresh-models-btn" class="btn btn-secondary">Refresh available models</button>
-            </div>
+            <input type="text" id="model" name="model" class="form-control">
+            <!-- <div class="input-group"> -->
+              <!-- <select id="model" name="model" class="form-select"></select> -->
+              <!-- <button id="refresh-models-btn" class="btn btn-secondary">Refresh available models</button> -->
+            <!-- </div> -->
           </div>
 
           <div class="mb-3">

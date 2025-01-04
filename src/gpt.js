@@ -114,13 +114,13 @@ function GptResponseReader(response) {
   };
 }
 
-async function fetchCompletions(apiKey, payload) {
+async function fetchCompletions(apiKey, payload, baseUrl) {
   const headers = {
     'Content-Type': 'application/json',
     Authorization: `Bearer ${apiKey}`,
   };
 
-  return fetch(ENDPOINT, {
+  return fetch(baseUrl + '/chat/completions', {
     method: 'POST',
     headers: headers,
     body: JSON.stringify(payload),
@@ -145,7 +145,7 @@ function gptDone(port, summary) {
 // caller-supplied port.
 //------------------------------------------------------------------------------
 export async function fetchAndStream(port, messages, options = {}) {
-  const config = await chrome.storage.sync.get(['apiKey', 'profiles', 'defaultProfile']);
+  const config = await chrome.storage.sync.get(['apiKey', 'baseUrl', 'profiles', 'defaultProfile']);
   const profileName = options.profile || config.defaultProfile;
   const profileKey = `profile__${profileName}`;
   const profileData = await chrome.storage.sync.get(profileKey);
@@ -162,6 +162,11 @@ export async function fetchAndStream(port, messages, options = {}) {
     return;
   }
 
+  if (config.baseUrl === null || config.baseUrl.length === 0) {
+    gptError(port, ERR_BASE_URL);
+    return;
+  }
+
   try {
     const payload = {
       model: options.model || profile.model,
@@ -171,7 +176,7 @@ export async function fetchAndStream(port, messages, options = {}) {
 
     debug('PAYLOAD', payload);
 
-    const response = await fetchCompletions(config.apiKey, payload);
+    const response = await fetchCompletions(config.apiKey, payload, config.baseUrl);
     const reader = GptResponseReader(response);
     let lastMessage = null;
 

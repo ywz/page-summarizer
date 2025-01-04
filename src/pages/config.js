@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', async () => {
   const defaultModel = 'gpt-4o-mini';
+  const defaultBaseUrl = 'https://api.openai.com/v1';
 
   const maxPromptBytes = 8192;
   const customPromptsCounter = document.getElementById('customPromptsCounter');
@@ -11,6 +12,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Global options
   const apiKey = document.getElementById('apiKey');
   const debug = document.getElementById('debug');
+  const baseUrl = document.getElementById('baseUrl') || defaultBaseUrl;
 
   // Profile options
   const name = document.getElementById('name');
@@ -18,7 +20,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const isDefault = document.getElementById('default');
 
   // Model-related widgets
-  const refreshModelsBtn = document.getElementById('refresh-models-btn');
+  // const refreshModelsBtn = document.getElementById('refresh-models-btn');
   const saveProfileBtn = document.getElementById('save-profile-btn');
   const modelSelect = document.getElementById('model');
 
@@ -71,6 +73,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   function buildDefaultConfig() {
     return {
       apiKey: '',
+      baseUrl: '',
       debug: false,
       defaultProfile: 'default',
       profiles: ['default'],
@@ -82,6 +85,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Global options
     const debug = document.getElementById('debug').checked;
     const apiKey = document.getElementById('apiKey').value.trim();
+    const baseUrl = document.getElementById('baseUrl').value.trim();
 
     // Profile options
     const name = document.getElementById('name').value.trim();
@@ -92,6 +96,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Basic validations
     if (apiKey == '') {
       showError('An API key is required. Get one <a href="https://beta.openai.com">here</a>.');
+      return;
+    }
+
+    if (baseUrl == '') {
+      showError('Base URL is required.');
       return;
     }
 
@@ -126,6 +135,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     config.debug = debug;
     config.apiKey = apiKey;
+    config.baseUrl = baseUrl;
 
     if (isDefault) {
       config.defaultProfile = name;
@@ -190,7 +200,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   async function reloadConfig() {
     const profileKeys = (await chrome.storage.sync.get('profiles')).profiles.map((name) => `profile__${name}`);
-    config = await chrome.storage.sync.get(['apiKey', 'defaultProfile', 'debug', 'models', 'profiles', ...profileKeys]);
+    config = await chrome.storage.sync.get(['apiKey', 'baseUrl', 'defaultProfile', 'debug', 'models', 'profiles', ...profileKeys]);
     console.log('Config', config);
 
     if (config.profiles === undefined) {
@@ -205,6 +215,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Then update the form with global configs
     debug.checked = !!(config.debug || false);
     apiKey.value = config.apiKey;
+    baseUrl.value = config.baseUrl || defaultBaseUrl;
 
     // Load profiles into the dropdown and select the current profile.
     // Sort the profiles such that the default profile is always first.
@@ -220,13 +231,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Populate the profile selector dropdown
     sortedProfileNames.forEach(addOption);
 
-    // Populate the model selector dropdown if possible
-    if (config.models && config.models.length > 0) {
-      populateModelOptions(config.models);
-      modelSelect.disabled = false;
-    } else {
-      modelSelect.disabled = true;
-    }
+    // // Populate the model selector dropdown if possible
+    // if (config.models && config.models.length > 0) {
+    //   populateModelOptions(config.models);
+    //   modelSelect.disabled = false;
+    // } else {
+    //   modelSelect.disabled = true;
+    // }
 
     selectProfile(currentProfile);
   }
@@ -242,13 +253,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-  async function fetchAvailableModels(apiKey) {
+  async function fetchAvailableModels(apiKey, baseUrl) {
     const headers = {
       Authorization: `Bearer ${apiKey}`,
     };
 
     try {
-      const response = await fetch('https://api.openai.com/v1/models', {
+      const response = await fetch(baseUrl + '/models', {
         method: 'GET',
         headers: headers,
       });
@@ -287,13 +298,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
       const apiKeyValue = apiKey.value.trim();
+      const baseUrlValue = baseUrl.value.trim();
 
       if (!apiKeyValue) {
         showError('Please enter your OpenAI API key before refreshing models.');
         return;
       }
 
-      const models = await fetchAvailableModels(apiKeyValue);
+      if (!baseUrlValue) {
+        showError('Please enter your Base URL before refreshing models.');
+        return;
+      }
+
+      const models = await fetchAvailableModels(apiKeyValue, baseUrlValue);
 
       if (models.length === 0) {
         showError('No models retrieved. Please check your API key and try again.');
@@ -468,9 +485,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   // Event listener for the refresh models button
-  refreshModelsBtn.addEventListener('click', async () => {
-    await refreshAvailableModels();
-  });
+  // refreshModelsBtn.addEventListener('click', async () => {
+  //   await refreshAvailableModels();
+  // });
 
   // Powers the display of the custom prompts byte counter
   customPrompts.addEventListener('input', updateCustomPromptsCounter);
