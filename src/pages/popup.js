@@ -34,6 +34,11 @@ document.addEventListener('DOMContentLoaded', async function () {
     chrome.tabs.create({ url: 'src/pages/popup.html?tabId=' + tabId });
   });
 
+  document.getElementById('close').addEventListener('click', (e) => {
+    e.preventDefault();
+    window.close();
+  });
+
   // Returns the URL of the original tab, identified by the global tabId.
   async function getOriginalTabUrl() {
     const tab = await chrome.tabs.get(tabId);
@@ -190,9 +195,10 @@ document.addEventListener('DOMContentLoaded', async function () {
       document.body.style.height = 'auto';
     } else {
       const width = Math.min(780, Math.round(screen.width * 0.6 * 0.1) * 10);
-      const height = Math.min(580, Math.round(screen.height * 0.75 * 0.1) * 10);
+      const height = Math.min(180, Math.round(screen.height * 0.75 * 0.1) * 10);
       document.body.style.width = `${width}px`;
-      document.body.style.height = `${height}px`;
+      document.body.style.height = 'auto';
+      // document.body.style.height = `${height}px`;
     }
   }
 
