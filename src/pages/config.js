@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const isDefault = document.getElementById('default');
 
   // Model-related widgets
-  // const refreshModelsBtn = document.getElementById('refresh-models-btn');
+  const refreshModelsBtn = document.getElementById('refresh-models-btn');
   const saveProfileBtn = document.getElementById('save-profile-btn');
   const modelSelect = document.getElementById('model');
 
@@ -231,13 +231,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Populate the profile selector dropdown
     sortedProfileNames.forEach(addOption);
 
-    // // Populate the model selector dropdown if possible
-    // if (config.models && config.models.length > 0) {
-    //   populateModelOptions(config.models);
-    //   modelSelect.disabled = false;
-    // } else {
-    //   modelSelect.disabled = true;
-    // }
+    // Populate the model selector dropdown if possible
+    if (config.models && config.models.length > 0) {
+      populateModelOptions(config.models);
+      modelSelect.disabled = false;
+    } else {
+      modelSelect.disabled = true;
+    }
 
     selectProfile(currentProfile);
   }
@@ -485,9 +485,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   // Event listener for the refresh models button
-  // refreshModelsBtn.addEventListener('click', async () => {
-  //   await refreshAvailableModels();
-  // });
+  refreshModelsBtn.addEventListener('click', async () => {
+    await refreshAvailableModels();
+  });
 
   // Powers the display of the custom prompts byte counter
   customPrompts.addEventListener('input', updateCustomPromptsCounter);
