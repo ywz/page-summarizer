@@ -51,14 +51,14 @@ document.addEventListener('DOMContentLoaded', async function () {
   const copySummaryButton = document.getElementById('copySummary');
 
   function enableCopyButton() {
-    copySummaryButton.classList.remove('btn-outline-secondary');
-    copySummaryButton.classList.add('btn-outline-primary');
+    // copySummaryButton.classList.remove('text-gray-500');
+    // copySummaryButton.classList.add('text-blue-500');
     copySummaryButton.disabled = false;
   }
 
   function disableCopyButton() {
-    copySummaryButton.classList.remove('btn-outline-primary');
-    copySummaryButton.classList.add('btn-outline-secondary');
+    // copySummaryButton.classList.remove('text-blue-500');
+    // copySummaryButton.classList.add('text-gray-500');
     copySummaryButton.disabled = true;
   }
 
@@ -174,12 +174,16 @@ document.addEventListener('DOMContentLoaded', async function () {
   // Display error messages from the background script.
   //----------------------------------------------------------------------------
   function reportError(msg) {
-    document.getElementById('errors').innerHTML = [
-      `<div class="alert alert-danger alert-dismissible fadee" role="alert">`,
-      `   <div>${msg}</div>`,
-      '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
-      '</div>',
-    ].join('');
+    document.getElementById('errors').innerHTML = `
+      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <div>${msg}</div>
+        <button type="button" class="absolute top-0 right-0 px-4 py-3" onclick="this.parentElement.remove()">
+          <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    `;
   }
 
   //----------------------------------------------------------------------------
@@ -484,11 +488,8 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   function updateSummary(message) {
     requestAnimationFrame(() => {
-      document.getElementById('summaryCard').classList.remove('visually-hidden');
-
+      document.getElementById('summaryCard').classList.remove('hidden');
       target.innerHTML = message;
-
-      // Autoscroll to the bottom of the page
       if (autoScroll) {
         window.scrollTo(0, document.body.scrollHeight);
       }
@@ -497,7 +498,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   function clearSummary() {
     requestAnimationFrame(() => {
-      document.getElementById('summaryCard').classList.add('visually-hidden');
+      document.getElementById('summaryCard').classList.add('hidden');
       target.innerHTML = '';
     });
   }

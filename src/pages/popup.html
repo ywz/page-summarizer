@@ -3,12 +3,9 @@
 
 <head>
   <title>Page Summarizer</title>
-
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <link rel="stylesheet" href="../../assets/bootstrap.min.css" />
-
+  <script src="../../assets/tailwindcss.min.js"></script>
   <style>
     body {
       min-width: 400px;
@@ -17,25 +14,41 @@
       position: relative;
       z-index: 1;
     }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    .fade-in {
+      animation: fadeIn 0.3s ease-in-out;
+    }
   </style>
 </head>
 
 <body class="bg-transparent m-0 p-0">
-  <div class="rounded shadow-sm p-0 m-0 overflow-hidden">
-
-    <div class="bg-light shadown-sm border-bottom p-2 d-flex align-items-center justify-content-between user-select-none">
-      <div class="fs-6 fw-semibold text-body">
-        &nbsp;
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-vector-pen"
+  <div class="rounded-lg shadow-lg overflow-hidden bg-white/95 backdrop-blur-sm">
+    <!-- Header -->
+    <div
+      class="bg-gradient-to-r from-slate-50 to-gray-50 border-b border-gray-200/80 px-4 py-3 flex items-center justify-between select-none">
+      <div class="text-sm font-medium text-gray-700 flex items-center space-x-2">
+        <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" 
           viewBox="0 0 16 16">
           <path fill-rule="evenodd"
             d="M10.646.646a.5.5 0 0 1 .708 0l4 4a.5.5 0 0 1 0 .708l-1.902 1.902-.829 3.313a1.5 1.5 0 0 1-1.024 1.073L1.254 14.746 4.358 4.4A1.5 1.5 0 0 1 5.43 3.377l3.313-.828zm-1.8 2.908-3.173.793a.5.5 0 0 0-.358.342l-2.57 8.565 8.567-2.57a.5.5 0 0 0 .34-.357l.794-3.174-3.6-3.6z" />
           <path fill-rule="evenodd" d="M2.832 13.228 8 9a1 1 0 1 0-1-1l-4.228 5.168-.026.086z" />
-        </svg>
-        &nbsp;Page Summarizer
+        </svg> -->
+        <span>Page Summarizer</span>
       </div>
-      <div class="d-flex gap-3 px-2">
-        <a href="#" id="newWindow" class="text-secondary text-decoration-none" title="Open in new window">
+
+      <div class="flex items-center space-x-4">
+        <a href="#" id="newWindow" class="text-gray-400 hover:text-gray-600 transition-colors duration-200"
+          title="Open in new window">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
             class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
             <path fill-rule="evenodd"
@@ -44,7 +57,8 @@
               d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z" />
           </svg>
         </a>
-        <a href="#" id="copySummary" class="text-secondary text-decoration-none" title="Copy summary">
+        <a href="#" id="copySummary" class="text-gray-400 hover:text-gray-600 transition-colors duration-200"
+          title="Copy summary">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard"
             viewBox="0 0 16 16">
             <path
@@ -53,7 +67,8 @@
               d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z" />
           </svg>
         </a>
-        <a href="#" id="options" class="text-secondary text-decoration-none" title="Settings">
+        <a href="#" id="options" class="text-gray-400 hover:text-gray-600 transition-colors duration-200"
+          title="Settings">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear"
             viewBox="0 0 16 16">
             <path
@@ -62,7 +77,7 @@
               d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z" />
           </svg>
         </a>
-        <a href="#" id="close" class="text-secondary text-decoration-none" title="Close">
+        <a href="#" id="close" class="text-gray-400 hover:text-gray-600 transition-colors duration-200" title="Close">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg"
             viewBox="0 0 16 16">
             <path
@@ -71,20 +86,34 @@
         </a>
       </div>
     </div>
-    <div class="p-3 bg-white">
-      <div class="btn-group mb-1" style="display: none;">
-        <span class="input-group-text">Profile</span>
-        <div class="d-flex flex-wrap mb-1" id="profileContainer"></div>
+
+    <!-- Content -->
+    <div class="p-4 space-y-4">
+      <!-- Profile Section (Hidden) -->
+      <div class="hidden">
+        <span
+          class="inline-flex items-center px-3 py-2 text-sm text-gray-600 bg-gray-50 border border-gray-200 rounded-l-lg">
+          Profile
+        </span>
+        <div class="flex flex-wrap gap-2" id="profileContainer"></div>
       </div>
 
-      <div class="input-group input-group-sm mb-2" style="display: none;">
-        <span class="input-group-text">Model</span>
-        <select id="model" name="model" class="form-select"></select>
+      <!-- Model Section (Hidden) -->
+      <div class="hidden">
+        <span
+          class="inline-flex items-center px-3 py-2 text-sm text-gray-600 bg-gray-50 border border-gray-200 rounded-l-lg">
+          Model
+        </span>
+        <select id="model" name="model"
+          class="form-select py-2 text-sm border-gray-200 rounded-r-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+        </select>
       </div>
 
-      <div class="input-group input-group-sm mb-3">
-        <span class="input-group-text">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-text"
+      <!-- Input Section -->
+      <div
+        class="flex items-center space-x-1 rounded-lg border border-gray-200 bg-white overflow-hidden shadow-sm hover:shadow transition-shadow duration-200">
+        <span class="flex-none inline-flex items-center px-3 py-2 text-gray-500">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="text-gray-400"
             viewBox="0 0 16 16">
             <path
               d="M5 4a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5M5 8a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1zm0 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1z" />
@@ -92,32 +121,35 @@
               d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1" />
           </svg>
         </span>
-        <input id="instructions" class="form-control"></input>
-        <button id="summarize" class="input-group-text" title="Summarize page">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-            class="bi bi-arrow-right-circle" viewBox="0 0 16 16">
+        <input id="instructions" class="flex-1 py-2 px-2 text-sm text-gray-700 border-0 focus:ring-0 focus:outline-none"
+          placeholder="Enter your instructions...">
+        <button id="summarize"
+          class="flex-none inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 transition-colors duration-200"
+          title="Summarize page">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" 
+            viewBox="0 0 16 16">
             <path fill-rule="evenodd"
               d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0M4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z" />
           </svg>
-          <!-- &nbsp;<span class="fw-bold">Summarize</span> -->
-          &nbsp;Summarize
+          <span class="ml-2">Summarize</span>
         </button>
       </div>
 
-      <div id="errors"></div>
+      <!-- Error Messages -->
+      <div id="errors" class="fade-in"></div>
 
-      <div id="summaryCard" class="card mb-3 bg-white border-0 visually-hidden">
-        <div class="card-body">
-          <div id="summary"></div>
+      <!-- Summary Card -->
+      <div id="summaryCard" class="hidden fade-in">
+        <div class="rounded-lg border border-gray-200 bg-white p-4 prose prose-xl max-w-none">
+          <div id="summary" class="text-gray-700 text-base leading-relaxed"></div>
         </div>
       </div>
 
-      <div id="debug mb-3"></div>
+      <div id="debug"></div>
     </div>
   </div>
 
   <script src="../../assets/marked.min.js"></script>
-  <script src="../../assets/bootstrap.bundle.min.js"></script>
   <script type="module" src="../../assets/pdf.min.mjs"></script>
   <script type="module" src="../../assets/pdf.worker.min.mjs"></script>
   <script src="popup.js"></script>
