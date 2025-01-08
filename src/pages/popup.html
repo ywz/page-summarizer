@@ -31,23 +31,17 @@
   </style>
 </head>
 
-<body class="bg-transparent m-0 p-0">
-  <div class="rounded-lg shadow-lg overflow-hidden bg-white/95 backdrop-blur-sm">
+<body class="bg-gray-50 p-4">
+  <div class="rounded-lg shadow-lg bg-white">
     <!-- Header -->
-    <div
-      class="bg-gradient-to-r from-slate-50 to-gray-50 border-b border-gray-200/80 px-4 py-3 flex items-center justify-between select-none">
-      <div class="text-sm font-medium text-gray-700 flex items-center space-x-2">
-        <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" 
-          viewBox="0 0 16 16">
-          <path fill-rule="evenodd"
-            d="M10.646.646a.5.5 0 0 1 .708 0l4 4a.5.5 0 0 1 0 .708l-1.902 1.902-.829 3.313a1.5 1.5 0 0 1-1.024 1.073L1.254 14.746 4.358 4.4A1.5 1.5 0 0 1 5.43 3.377l3.313-.828zm-1.8 2.908-3.173.793a.5.5 0 0 0-.358.342l-2.57 8.565 8.567-2.57a.5.5 0 0 0 .34-.357l.794-3.174-3.6-3.6z" />
-          <path fill-rule="evenodd" d="M2.832 13.228 8 9a1 1 0 1 0-1-1l-4.228 5.168-.026.086z" />
-        </svg> -->
+    <div class="px-4 py-3 border-b border-gray-200 flex items-center justify-between">
+      <div class="text-sm/6 font-semibold text-gray-900 flex items-center space-x-2">
         <span>Page Summarizer</span>
       </div>
 
-      <div class="flex items-center space-x-4">
-        <a href="#" id="newWindow" class="text-gray-400 hover:text-gray-600 transition-colors duration-200"
+      <div class="flex items-center space-x-3">
+        <button id="newWindow"
+          class="p-1.5 text-gray-400 hover:text-gray-600 transition-colors duration-200 rounded-md hover:bg-gray-50"
           title="Open in new window">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
             class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
@@ -56,8 +50,9 @@
             <path fill-rule="evenodd"
               d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z" />
           </svg>
-        </a>
-        <a href="#" id="copySummary" class="text-gray-400 hover:text-gray-600 transition-colors duration-200"
+        </button>
+        <button id="copySummary"
+          class="p-1.5 text-gray-400 hover:text-gray-600 transition-colors duration-200 rounded-md hover:bg-gray-50"
           title="Copy summary">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard"
             viewBox="0 0 16 16">
@@ -66,8 +61,9 @@
             <path
               d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z" />
           </svg>
-        </a>
-        <a href="#" id="options" class="text-gray-400 hover:text-gray-600 transition-colors duration-200"
+        </button>
+        <button id="options"
+          class="p-1.5 text-gray-400 hover:text-gray-600 transition-colors duration-200 rounded-md hover:bg-gray-50"
           title="Settings">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear"
             viewBox="0 0 16 16">
@@ -76,14 +72,16 @@
             <path
               d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z" />
           </svg>
-        </a>
-        <a href="#" id="close" class="text-gray-400 hover:text-gray-600 transition-colors duration-200" title="Close">
+        </button>
+        <button id="close"
+          class="p-1.5 text-gray-400 hover:text-gray-600 transition-colors duration-200 rounded-md hover:bg-gray-50"
+          title="Close">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg"
             viewBox="0 0 16 16">
             <path
               d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
           </svg>
-        </a>
+        </button>
       </div>
     </div>
 
@@ -110,28 +108,26 @@
       </div>
 
       <!-- Input Section -->
-      <div
-        class="flex items-center space-x-1 rounded-lg border border-gray-200 bg-white overflow-hidden shadow-sm hover:shadow transition-shadow duration-200">
-        <span class="flex-none inline-flex items-center px-3 py-2 text-gray-500">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="text-gray-400"
-            viewBox="0 0 16 16">
-            <path
-              d="M5 4a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5M5 8a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1zm0 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1z" />
-            <path
-              d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1" />
-          </svg>
-        </span>
-        <input id="instructions" class="flex-1 py-2 px-2 text-sm text-gray-700 border-0 focus:ring-0 focus:outline-none"
+      <div class="relative flex items-center">
+        <input id="instructions" 
+          class="block w-full rounded-md bg-white pl-10 pr-24 py-2 text-sm text-gray-900 border border-gray-300 focus:ring-1 focus:ring-blue-600 focus:border-blue-600 placeholder:text-gray-400"
           placeholder="Enter your instructions...">
-        <button id="summarize"
-          class="flex-none inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 transition-colors duration-200"
-          title="Summarize page">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" 
-            viewBox="0 0 16 16">
-            <path fill-rule="evenodd"
-              d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0M4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z" />
+        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400"
+            viewBox="0 0 16 16" fill="currentColor">
+            <path d="M5 4a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5M5 8a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1z"/>
+            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1"/>
           </svg>
-          <span class="ml-2">Summarize</span>
+        </div>
+        <button id="summarize"
+          class="absolute right-0 h-full px-4 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-500 border-l transition-colors duration-200 rounded-r-md"
+          title="Summarize page">
+          <div class="flex items-center space-x-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 16 16" fill="currentColor">
+              <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0M4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z"/>
+            </svg>
+            <span>Summarize</span>
+          </div>
         </button>
       </div>
 
@@ -140,8 +136,8 @@
 
       <!-- Summary Card -->
       <div id="summaryCard" class="hidden fade-in">
-        <div class="rounded-lg border border-gray-200 bg-white p-4 prose prose-xl max-w-none">
-          <div id="summary" class="text-gray-700 text-base leading-relaxed"></div>
+        <div class="rounded-lg border border-gray-200 bg-white p-4">
+          <div id="summary" class="text-sm/6 text-gray-900"></div>
         </div>
       </div>
 
