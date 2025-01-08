@@ -1,91 +1,204 @@
 <!doctype html>
 <html>
-  <head>
-    <title>Configuration</title>
 
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<head>
+  <title>Configuration</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="../../assets/tailwindcss.min.js"></script>
+  <style>
+    body {
+      min-width: 600px;
+      margin: 0;
+      padding: 0;
+    }
 
-    <link rel="stylesheet" href="../../assets/bootstrap.min.css" />
-  </head>
-  <body class="p-3">
-    <h1>Page summarizer</h1>
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
 
-    <div id="status"></div>
+    .fade-in {
+      animation: fadeIn 0.3s ease-in-out;
+    }
 
-    <div>
-      <div class="card mb-3">
-        <div class="card-header">Save/Restore profiles</div>
-        <div class="card-body">
-          <button id="export-profiles-btn" class="btn btn-info">Export</button>
+    /* Hide default select arrow in modern browsers */
+    select {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+    }
+    
+    /* Hide default select arrow in IE */
+    select::-ms-expand {
+      display: none;
+    }
+  </style>
+</head>
 
-          <button id="import-profiles-btn" class="btn btn-warning">Import</button>
-          <input type="file" id="import-profiles-file" style="display: none" />
-        </div>
+<body class="bg-gray-50 p-4">
+  <div class="max-w-2xl mx-auto space-y-4">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-6">
+      <h1 class="text-xl font-medium text-gray-900">Page Summarizer Settings</h1>
+      <div class="space-x-2">
+        <button id="export-profiles-btn" 
+          class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-semibold rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+          Export
+        </button>
+        <button id="import-profiles-btn"
+          class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-semibold rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+          Import
+        </button>
+        <input type="file" id="import-profiles-file" class="hidden" />
       </div>
-
-      <div class="card mb-3">
-        <div class="card-header">Global settings</div>
-        <div class="card-body">
-          <div class="input-group">
-            <label class="input-group-text" for="apiKey">OpenAI API Key</label>
-            <input type="text" id="apiKey" name="apiKey" class="form-control" />
-            <button id="open-api-keys" class="btn btn-primary btn-sm" title="OpenAI API keys">&#x2197;</button>
-          </div>
-
-          <div class="input-group">
-            <label class="input-group-text" for="baseUrl">Base URL</label>
-            <input type="text" id="baseUrl" name="baseUrl" class="form-control" />
-          </div>
-
-          <div class="form-check mb-3">
-            <input type="checkbox" id="debug" name="debug" class="form-check-input" />
-            <label for="debug" class="form-check-label">Debug mode</label>
-          </div>
-        </div>
-      </div>
-
-      <div class="card mb-3">
-        <div class="card-header" id="profileCardHeader">
-          <div class="input-group">
-            <select id="profileSelector" name="profileSelector" class="form-select"></select>
-            <button id="add-profile-btn" class="btn btn-success">+</button>
-            <button id="delete-profile-btn" class="btn btn-danger">X</button>
-          </div>
-        </div>
-
-        <div class="card-body">
-          <div class="form-check mb-3">
-            <input type="checkbox" id="default" name="default" class="form-check-input" />
-            <label for="default" class="form-check-label">Default</label>
-          </div>
-
-          <div class="mb-3">
-            <label for="name" class="form-label">Name</label>
-            <input type="text" id="name" name="name" class="form-control" />
-          </div>
-
-          <div class="mb-3">
-            <label for="model" class="form-label">Default model</label>
-            <!-- <input type="text" id="model" name="model" class="form-control"> -->
-            <div class="input-group">
-              <select id="model" name="model" class="form-select"></select>
-              <button id="refresh-models-btn" class="btn btn-secondary">Refresh available models</button>
-            </div>
-          </div>
-
-          <div class="mb-3">
-            <label for="customPrompts" class="form-label">Custom Prompts (One per line)</label>
-            <textarea id="customPrompts" name="customPrompts" class="form-control" rows="5"></textarea>
-            <small id="customPromptsCounter" class="form-text text-muted text-end d-block"></small>
-          </div>
-        </div>
-      </div>
-
-      <button id="save-profile-btn" type="submit" class="btn btn-primary">Save</button>
     </div>
 
-    <script src="config.js"></script>
-    <script src="../../assets/bootstrap.bundle.min.js"></script>
-  </body>
+    <!-- Status Messages -->
+    <div id="status" class="fade-in"></div>
+
+    <!-- Global Settings Card -->
+    <div class="bg-white shadow-lg rounded-lg">
+      <div class="px-4 py-3 border-b border-gray-200">
+        <h2 class="text-lg font-medium text-gray-900">Global Settings</h2>
+      </div>
+      <div class="p-4 space-y-6">
+        <div class="space-y-2.5">
+          <label class="block text-sm/6 font-semibold text-gray-900">OpenAI API Key</label>
+          <div class="relative">
+            <input type="text" id="apiKey" name="apiKey"
+              class="block w-full rounded-md bg-white pl-3.5 pr-10 py-2 text-base text-gray-900 border border-gray-300 focus:ring-1 focus:ring-blue-600 focus:border-blue-600 placeholder:text-gray-400 sm:text-sm/6"
+              placeholder="sk-..." />
+            <button id="open-api-keys"
+              class="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-gray-600"
+              title="OpenAI API keys">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z"
+                  clip-rule="evenodd" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="space-y-2.5">
+          <label class="block text-sm/6 font-semibold text-gray-900">Base URL</label>
+          <input type="text" id="baseUrl" name="baseUrl"
+            class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 border border-gray-300 focus:ring-1 focus:ring-blue-600 focus:border-blue-600 placeholder:text-gray-400 sm:text-sm/6" />
+        </div>
+
+        <!-- Debug Switch -->
+        <div class="flex gap-x-3">
+          <div class="flex h-6 items-center">
+            <button type="button" id="debug" role="switch" aria-checked="false"
+              class="relative flex w-8 cursor-pointer rounded-full p-px ring-1 ring-inset ring-gray-900/5 transition-colors duration-200 ease-in-out focus:outline-none">
+              <span class="sr-only">Debug mode</span>
+              <span class="size-4 transform rounded-full bg-white shadow-sm ring-1 ring-gray-900/5 transition duration-200 ease-in-out"></span>
+            </button>
+          </div>
+          <div class="flex flex-col">
+            <label for="debug" class="text-sm/6 font-semibold text-gray-900">Debug mode</label>
+            <span class="text-sm text-gray-500">Enable detailed logging for troubleshooting.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Profile Settings Card -->
+    <div class="bg-white shadow-lg rounded-lg">
+      <div class="px-4 py-3 border-b border-gray-200">
+        <h2 class="text-lg font-medium text-gray-900">Profile Settings</h2>
+      </div>
+      
+      <!-- Profile Selector -->
+      <div class="px-4 py-3 border-b border-gray-200 bg-gray-50">
+        <div class="flex items-center space-x-2">
+          <div class="flex-1 relative">
+            <select id="profileSelector" name="profileSelector"
+              class="w-full appearance-none rounded-md bg-white py-2 pr-8 pl-3.5 text-base text-gray-900 border border-gray-300 focus:ring-1 focus:ring-blue-600 sm:text-sm/6">
+            </select>
+            <svg class="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 size-5 text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <button id="add-profile-btn"
+            class="px-3.5 py-2 text-sm font-semibold text-gray-900 rounded-md">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                clip-rule="evenodd" />
+            </svg>
+          </button>
+          <button id="delete-profile-btn"
+            class="px-3.5 py-2 text-sm font-semibold text-gray-900 rounded-md">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M4 10a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1z" clip-rule="evenodd" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="p-4 space-y-6">
+        <!-- Default Profile Switch -->
+        <div class="flex gap-x-3">
+          <div class="flex h-6 items-center">
+            <button type="button" id="default" role="switch" aria-checked="false"
+              class="relative flex w-8 cursor-pointer rounded-full p-px ring-1 ring-inset ring-gray-900/5 transition-colors duration-200 ease-in-out focus:outline-none">
+              <span class="sr-only">Default profile</span>
+              <span class="size-4 transform rounded-full bg-white shadow-sm ring-1 ring-gray-900/5 transition duration-200 ease-in-out"></span>
+            </button>
+          </div>
+          <div class="flex flex-col">
+            <label for="default" class="text-sm/6 font-semibold text-gray-900">Default profile</label>
+            <span class="text-sm text-gray-500">Make this profile the default one.</span>
+          </div>
+        </div>
+
+        <div class="space-y-2.5">
+          <label class="block text-sm/6 font-semibold text-gray-900">Profile Name</label>
+          <input type="text" id="name" name="name"
+            class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 border border-gray-300 focus:ring-1 focus:ring-blue-600 focus:border-blue-600 placeholder:text-gray-400 sm:text-sm/6" />
+        </div>
+
+        <div class="space-y-2.5">
+          <label class="block text-sm/6 font-semibold text-gray-900">Default Model</label>
+          <div class="flex items-center space-x-2">
+            <div class="flex-1 relative">
+              <select id="model" name="model"
+                class="w-full appearance-none rounded-md bg-white py-2 pr-8 pl-3.5 text-base text-gray-900 border border-gray-300 focus:ring-1 focus:ring-blue-600 sm:text-sm/6">
+              </select>
+              <svg class="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 size-5 text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd"/>
+              </svg>
+            </div>
+            <button id="refresh-models-btn"
+              class="px-3.5 py-2 text-sm font-semibold text-gray-900 rounded-md bg-white border border-gray-300 hover:bg-gray-50">
+              Refresh
+            </button>
+          </div>
+        </div>
+
+        <div class="space-y-2.5">
+          <label class="block text-sm/6 font-semibold text-gray-900">Custom Prompts</label>
+          <textarea id="customPrompts" name="customPrompts" rows="5"
+            class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 border border-gray-300 focus:ring-1 focus:ring-blue-600 focus:border-blue-600 placeholder:text-gray-400 resize-y sm:text-sm/6"
+            placeholder="Enter one prompt per line..."></textarea>
+          <div class="text-right">
+            <span id="customPromptsCounter" class="text-sm text-gray-500"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Save Button -->
+    <div class="flex justify-end">
+      <button id="save-profile-btn"
+        class="px-4 py-2.5 text-sm font-semibold text-white shadow-lg rounded-md bg-blue-600 hover:bg-blue-500 focus:ring-2 focus:ring-offset-2 focus:ring-blue-600">
+        Save Changes
+      </button>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+</body>
+
 </html>

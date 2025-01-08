@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   async function saveConfig() {
     // Global options
-    const debug = document.getElementById('debug').checked;
+    const debug = document.getElementById('debug').getAttribute('aria-checked') === 'true';
     const apiKey = document.getElementById('apiKey').value.trim();
     const baseUrl = document.getElementById('baseUrl').value.trim();
 
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const name = document.getElementById('name').value.trim();
     const model = modelSelect.value.trim();
     const customPrompts = document.getElementById('customPrompts').value.split('\n');
-    const isDefault = document.getElementById('default').checked;
+    const isDefault = document.getElementById('default').getAttribute('aria-checked') === 'true';
 
     // Basic validations
     if (apiKey == '') {
@@ -213,7 +213,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     currentProfile = config.defaultProfile;
 
     // Then update the form with global configs
-    debug.checked = !!(config.debug || false);
+    toggleDebug(!!(config.debug || false));
     apiKey.value = config.apiKey;
     baseUrl.value = config.baseUrl || defaultBaseUrl;
 
@@ -275,7 +275,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         // We only want the model IDs
         .map((model) => model.id)
         // Filter out models that are not GPT-3 or GPT-4
-        .filter((model) => model.startsWith('gpt-'))
+        // .filter((model) => model.startsWith('gpt-'))
         // Filter out models matching `-\d\d\d\d`
         .filter((model) => !model.match(/-\d\d\d\d/));
 
@@ -362,7 +362,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       name.value = profile;
       modelSelect.value = data.model || defaultModel;
       customPrompts.value = data.customPrompts.join('\n') || '';
-      isDefault.checked = profile === config.defaultProfile;
+      toggleDefault(profile === config.defaultProfile);
 
       // Update the byte counter after setting the prompt value
       updateCustomPromptsCounter();
@@ -374,12 +374,54 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   function showStatus(msg, type) {
-    status.innerHTML = [
-      `<div class="alert alert-${type} alert-dismissible fadee" role="alert">`,
-      `   <div>${msg}</div>`,
-      '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
-      '</div>',
-    ].join('');
+    const styles = {
+      danger: {
+        container: 'bg-red-50',
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5 text-red-500">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd"/>
+        </svg>`,
+        text: 'text-red-700',
+      },
+      success: {
+        container: 'bg-green-50',
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5 text-green-500">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"/>
+        </svg>`,
+        text: 'text-green-700',
+      },
+    };
+
+    const style = styles[type];
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `fade-in flex rounded-md p-4 ${style.container}`;
+    alertDiv.innerHTML = `
+      <div class="flex w-full">
+        <div class="flex-shrink-0">
+          ${style.icon}
+        </div>
+        <div class="ml-3 flex-1">
+          <p class="text-sm font-medium ${style.text}">${msg}</p>
+        </div>
+        <div class="pl-3 ml-auto">
+          <div class="flex">
+            <button type="button" class="inline-flex rounded-md ${style.text} hover:${style.text} focus:outline-none">
+              <span class="sr-only">Dismiss</span>
+              <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // Add click handler for close button
+    const closeButton = alertDiv.querySelector('button');
+    closeButton.addEventListener('click', () => alertDiv.remove());
+
+    // Clear previous alerts and add new one
+    status.innerHTML = '';
+    status.appendChild(alertDiv);
   }
 
   function showError(msg) {
@@ -491,6 +533,33 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Powers the display of the custom prompts byte counter
   customPrompts.addEventListener('input', updateCustomPromptsCounter);
+
+  // Switch toggle handler
+  function setupSwitch(elementId) {
+    const switchBtn = document.getElementById(elementId);
+    const toggleSwitch = (checked) => {
+      switchBtn.setAttribute('aria-checked', checked);
+      if (checked) {
+        switchBtn.classList.add('bg-blue-600');
+        switchBtn.querySelector('span:not(.sr-only)').classList.add('translate-x-3.5');
+      } else {
+        switchBtn.classList.remove('bg-blue-600');
+        switchBtn.querySelector('span:not(.sr-only)').classList.remove('translate-x-3.5');
+      }
+    };
+
+    switchBtn.addEventListener('click', () => {
+      const checked = switchBtn.getAttribute('aria-checked') === 'true';
+      toggleSwitch(!checked);
+    });
+
+    // 初始化开关状态的方法
+    return toggleSwitch;
+  }
+
+  // 设置开关
+  const toggleDebug = setupSwitch('debug');
+  const toggleDefault = setupSwitch('default');
 
   // Load config on page load
   await reloadConfig();
