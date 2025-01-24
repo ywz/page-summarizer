@@ -10,16 +10,16 @@
     "contextMenus"
   ],
   "icons": {
-    "16": "assets/icon_16.png",
-    "48": "assets/icon_48.png",
-    "128": "assets/icon_128.png"
+    "16": "assets/moka-pot_16.png",
+    "48": "assets/moka-pot_64.png",
+    "128": "assets/moka-pot_128.png"
   },
   "action": {
     "default_popup": "src/pages/popup.html",
     "default_icon": {
-      "16": "assets/icon_16.png",
-      "48": "assets/icon_48.png",
-      "128": "assets/icon_128.png"
+    "16": "assets/moka-pot_16.png",
+    "48": "assets/moka-pot_64.png",
+    "128": "assets/moka-pot_128.png"
     }
   },
   "background": {
