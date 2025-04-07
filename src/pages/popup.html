@@ -8,11 +8,12 @@
   <script src="../../assets/tailwindcss.min.js"></script>
   <style>
     body {
-      min-width: 400px;
+      min-width: 380px;
       margin: 0;
       padding: 0;
       position: relative;
       z-index: 1;
+      font-size: 0.9rem;
     }
 
     @keyframes fadeIn {
@@ -31,116 +32,83 @@
   </style>
 </head>
 
-<body class="bg-white p-1">
+<body class="bg-white">
   <!-- Header -->
-  <div class="px-4 py-3 border-b border-gray-200 flex items-center justify-between">
-    <div class="text-sm/6 font-semibold text-gray-900 flex items-center space-x-2">
-      <span>Page Summarizer</span>
+  <div class="px-2 py-1.5 border-b border-gray-200 flex items-center justify-between">
+    <div class="font-medium text-gray-900 flex items-center space-x-1">
+      <span class="text-sm">Page Summarizer</span>
     </div>
 
-    <div class="flex items-center space-x-3">
+    <div class="flex items-center space-x-1">
       <button id="newWindow"
-        class="p-1.5 text-gray-400 hover:text-gray-600 transition-colors duration-200 rounded-md hover:bg-gray-50"
+        class="p-1 text-gray-400 hover:text-gray-600 transition-colors duration-200 rounded-md hover:bg-gray-50"
         title="Open in new window">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-          class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
-          <path fill-rule="evenodd"
-            d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5" />
-          <path fill-rule="evenodd"
-            d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z" />
-        </svg>
+        <img src="../assets/icons/external-link.svg" width="15" height="15" alt="Open in new window">
       </button>
       <button id="copySummary"
-        class="p-1.5 text-gray-400 hover:text-gray-600 transition-colors duration-200 rounded-md hover:bg-gray-50"
+        class="p-1 text-gray-400 hover:text-gray-600 transition-colors duration-200 rounded-md hover:bg-gray-50"
         title="Copy summary">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard"
-          viewBox="0 0 16 16">
-          <path
-            d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z" />
-          <path
-            d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z" />
-        </svg>
+        <img src="../assets/icons/clipboard.svg" width="15" height="15" alt="Copy summary">
       </button>
       <button id="options"
-        class="p-1.5 text-gray-400 hover:text-gray-600 transition-colors duration-200 rounded-md hover:bg-gray-50"
+        class="p-1 text-gray-400 hover:text-gray-600 transition-colors duration-200 rounded-md hover:bg-gray-50"
         title="Settings">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear"
-          viewBox="0 0 16 16">
-          <path
-            d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0" />
-          <path
-            d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z" />
-        </svg>
+        <img src="../assets/icons/gear.svg" width="15" height="15" alt="Settings">
       </button>
       <button id="close"
-        class="p-1.5 text-gray-400 hover:text-gray-600 transition-colors duration-200 rounded-md hover:bg-gray-50"
+        class="p-1 text-gray-400 hover:text-gray-600 transition-colors duration-200 rounded-md hover:bg-gray-50"
         title="Close">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg"
-          viewBox="0 0 16 16">
-          <path
-            d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
-        </svg>
+        <img src="../assets/icons/x-lg.svg" width="15" height="15" alt="Close">
       </button>
     </div>
   </div>
 
   <!-- Content -->
-  <div class="p-4 space-y-4">
+  <div class="p-2.5 space-y-2.5">
     <!-- Profile Section (Hidden) -->
     <div class="hidden">
-      <span
-        class="inline-flex items-center px-3 py-2 text-sm text-gray-600 bg-gray-50 border border-gray-200 rounded-l-lg">
+      <span class="inline-flex items-center px-2 py-1 text-sm text-gray-600 bg-gray-50 border border-gray-200 rounded-l-lg">
         Profile
       </span>
-      <div class="flex flex-wrap gap-2" id="profileContainer"></div>
+      <div class="flex flex-wrap gap-1" id="profileContainer"></div>
     </div>
 
     <!-- Model Section (Hidden) -->
     <div class="hidden">
-      <span
-        class="inline-flex items-center px-3 py-2 text-sm text-gray-600 bg-gray-50 border border-gray-200 rounded-l-lg">
+      <span class="inline-flex items-center px-2 py-1 text-sm text-gray-600 bg-gray-50 border border-gray-200 rounded-l-lg">
         Model
       </span>
       <select id="model" name="model"
-        class="form-select py-2 text-sm border-gray-200 rounded-r-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+        class="form-select py-1 text-sm border-gray-200 rounded-r-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
       </select>
     </div>
 
     <!-- Input Section -->
     <div class="relative flex items-center">
       <input id="instructions" 
-        class="block w-full rounded-md bg-white pl-10 pr-24 py-2 text-sm text-gray-900 border border-gray-300 focus:ring-1 focus:ring-blue-600 focus:border-blue-600 placeholder:text-gray-400"
-        placeholder="Enter your instructions...">
-      <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400"
-          viewBox="0 0 16 16" fill="currentColor">
-          <path d="M5 4a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5M5 8a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1z"/>
-          <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1"/>
-        </svg>
+        class="block w-full rounded-sm bg-white pl-7 pr-12 py-1.5 text-sm text-gray-900 border border-gray-200 focus:ring-1 focus:ring-blue-600 focus:border-blue-600 placeholder:text-gray-400"
+        placeholder="Enter instructions...">
+      <div class="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none">
+        <img src="../assets/icons/text-file.svg" class="h-4 w-4 text-gray-400" alt="Instructions">
       </div>
       <button id="summarize"
-        class="absolute right-0 h-full px-4 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-500 border-l transition-colors duration-200 rounded-r-md"
-        title="Summarize page">
-        <div class="flex items-center space-x-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 16 16" fill="currentColor">
-            <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0M4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z"/>
-          </svg>
-          <span>Summarize</span>
-        </div>
+        class="absolute right-0 h-full px-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-500 border-l transition-colors duration-200 rounded-r-sm" title="Summarize page">
+        <span>Go</span>
       </button>
     </div>
 
     <!-- Error Messages -->
-    <div id="errors" class="fade-in"></div>
+    <div id="errors" class="fade-in text-sm"></div>
 
     <!-- Summary Card -->
     <div id="summaryCard" class="hidden fade-in">
-      <div class="rounded-lg border border-gray-200 bg-white p-4">
-        <div id="summary" class="text-sm/6 text-gray-900"></div>
+      <div class="rounded-sm border border-gray-200 bg-white p-3">
+      <!-- <div class="rounded-sm bg-white p-3"> -->
+        <div id="summary" class="text-sm leading-relaxed text-gray-900"></div>
       </div>
     </div>
 
-    <div id="debug"></div>
+    <div id="debug" class="text-sm"></div>
   </div>
 
   <script src="../../assets/marked.min.js"></script>
