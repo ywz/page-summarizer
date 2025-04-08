@@ -198,7 +198,9 @@ document.addEventListener('DOMContentLoaded', async function () {
       document.body.style.width = 'auto';
       document.body.style.height = 'auto';
     } else {
-      const width = Math.min(780, Math.round(screen.width * 0.6 * 0.1) * 10);
+      // const width = Math.min(780, Math.round(screen.width * 0.6 * 0.1) * 10);
+      // const height = Math.min(180, Math.round(screen.height * 0.75 * 0.1) * 10);
+      const width = Math.min(600, Math.round(screen.width * 0.5 * 0.1) * 10);
       const height = Math.min(180, Math.round(screen.height * 0.75 * 0.1) * 10);
       document.body.style.width = `${width}px`;
       document.body.style.height = 'auto';
