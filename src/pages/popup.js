@@ -537,6 +537,16 @@ document.addEventListener('DOMContentLoaded', async function () {
       requestAnimationFrame(() => {
         window.scrollTo(0, 0);
       });
+    } else {
+      // 如果没有缓存的摘要，自动执行摘要操作
+      // 使用小延迟确保所有初始化完成
+      setTimeout(() => {
+        if (!working) {
+          working = true;
+          updateSummary('Fetching summary...');
+          requestNewSummary();
+        }
+      }, 500);
     }
   });
 
