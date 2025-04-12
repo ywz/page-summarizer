@@ -5,8 +5,9 @@
   <title>Page Summarizer</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <script src="../../assets/tailwindcss.min.js"></script>
+  <link rel="stylesheet" href="../assets/styles.css">
   <style>
+    /* Some existing styles remain in the head for now */
     body {
       min-width: 320px;
       margin: 0;
@@ -32,83 +33,70 @@
   </style>
 </head>
 
-<body class="bg-white">
+<body>
   <!-- Header -->
-  <div class="px-2 py-1.5 border-b border-gray-200 flex items-center justify-between">
-    <div class="font-medium text-gray-900 flex items-center space-x-1">
-      <span class="text-sm">Page Summarizer</span>
+  <div class="header">
+    <div class="header-title">
+      <span>Page Summarizer</span>
     </div>
 
-    <div class="flex items-center space-x-1">
-      <button id="newWindow"
-        class="p-1 text-gray-400 hover:text-gray-600 transition-colors duration-200 rounded-md hover:bg-gray-50"
-        title="Open in new window">
+    <div class="header-buttons">
+      <button id="newWindow" class="header-button" title="Open in new window">
         <img src="../assets/icons/external-link.svg" width="15" height="15" alt="Open in new window">
       </button>
-      <button id="copySummary"
-        class="p-1 text-gray-400 hover:text-gray-600 transition-colors duration-200 rounded-md hover:bg-gray-50"
-        title="Copy summary">
+      <button id="copySummary" class="header-button" title="Copy summary">
         <img src="../assets/icons/clipboard.svg" width="15" height="15" alt="Copy summary">
       </button>
-      <button id="options"
-        class="p-1 text-gray-400 hover:text-gray-600 transition-colors duration-200 rounded-md hover:bg-gray-50"
-        title="Settings">
+      <button id="options" class="header-button" title="Settings">
         <img src="../assets/icons/gear.svg" width="15" height="15" alt="Settings">
       </button>
-      <button id="close"
-        class="p-1 text-gray-400 hover:text-gray-600 transition-colors duration-200 rounded-md hover:bg-gray-50"
-        title="Close">
+      <button id="close" class="header-button" title="Close">
         <img src="../assets/icons/x-lg.svg" width="15" height="15" alt="Close">
       </button>
     </div>
   </div>
 
   <!-- Content -->
-  <div class="p-2.5 space-y-2.5">
+  <div class="content">
     <!-- Profile Section (Hidden) -->
     <div class="hidden">
-      <span class="inline-flex items-center px-2 py-1 text-sm text-gray-600 bg-gray-50 border border-gray-200 rounded-l-lg">
+      <span class="section-label">
         Profile
       </span>
-      <div class="flex flex-wrap gap-1" id="profileContainer"></div>
+      <div class="profile-container" id="profileContainer"></div>
     </div>
 
     <!-- Model Section (Hidden) -->
     <div class="hidden">
-      <span class="inline-flex items-center px-2 py-1 text-sm text-gray-600 bg-gray-50 border border-gray-200 rounded-l-lg">
+      <span class="section-label">
         Model
       </span>
-      <select id="model" name="model"
-        class="form-select py-1 text-sm border-gray-200 rounded-r-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
+      <select id="model" name="model" class="model-select">
       </select>
     </div>
 
     <!-- Input Section -->
-    <div class="relative flex items-center">
-      <input id="instructions" 
-        class="block w-full rounded-md bg-white pl-7 pr-12 py-1.5 text-sm text-gray-900 border border-gray-200 focus:ring-1 focus:ring-blue-600 focus:border-blue-600 placeholder:text-gray-400"
-        placeholder="Enter instructions...">
-      <div class="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none">
-        <img src="../assets/icons/text-file.svg" class="h-4 w-4 text-gray-400" alt="Instructions">
+    <div class="input-container">
+      <input id="instructions" class="input-field" placeholder="Enter instructions...">
+      <div class="input-icon">
+        <img src="../assets/icons/text-file.svg" class="h-4 w-4" alt="Instructions">
       </div>
-      <button id="summarize"
-        class="absolute right-0 h-full px-2 text-sm font-medium text-white bg-gray-900 hover:bg-gray-700 border-l transition-colors duration-200 rounded-r-md" title="Summarize page">
+      <button id="summarize" class="send-button" title="Summarize page">
         <span>Send</span>
       </button>
     </div>
 
     <!-- Error Messages -->
-    <div id="errors" class="fade-in text-sm"></div>
+    <div id="errors" class="errors fade-in"></div>
 
     <!-- Summary Card -->
     <div id="summaryCard" class="hidden fade-in">
-      <div class="rounded-md border border-gray-200 bg-white p-3">
-      <!-- <div class="rounded-sm bg-white p-3"> -->
-        <div id="summary" class="text-sm leading-relaxed text-gray-900 max-h-96 overflow-y-auto pr-1"></div>
+      <div class="summary-card">
+        <div id="summary" class="summary-content"></div>
       </div>
     </div>
 
-    <div id="debug" class="text-sm"></div>
+    <div id="debug" class="debug"></div>
   </div>
 
   <script src="../../assets/marked.min.js"></script>
