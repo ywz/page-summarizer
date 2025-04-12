@@ -564,3 +564,59 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Load config on page load
   await reloadConfig();
 });
+
+// Notification System
+function showNotification(message, type = 'info', duration = 5000) {
+  const container = document.getElementById('notification-container');
+  
+  // Create notification element
+  const notification = document.createElement('div');
+  notification.className = `notification notification-${type}`;
+  
+  // Add message
+  const messageElement = document.createElement('div');
+  messageElement.className = 'notification-message';
+  messageElement.textContent = message;
+  notification.appendChild(messageElement);
+  
+  // Add close button
+  const closeButton = document.createElement('button');
+  closeButton.className = 'notification-close';
+  closeButton.innerHTML = '×';
+  closeButton.addEventListener('click', () => {
+    notification.style.opacity = '0';
+    setTimeout(() => {
+      if (notification.parentNode) {
+        notification.parentNode.removeChild(notification);
+      }
+    }, 300);
+  });
+  notification.appendChild(closeButton);
+  
+  // Add to container
+  container.appendChild(notification);
+  
+  // Auto remove after duration
+  if (duration) {
+    setTimeout(() => {
+      notification.style.opacity = '0';
+      setTimeout(() => {
+        if (notification.parentNode) {
+          notification.parentNode.removeChild(notification);
+        }
+      }, 300);
+    }, duration);
+  }
+  
+  return notification;
+}
+
+// Error notification shorthand
+function showError(message, duration = 5000) {
+  return showNotification(message, 'error', duration);
+}
+
+// Success notification shorthand
+function showSuccess(message, duration = 3000) {
+  return showNotification(message, 'success', duration);
+}
