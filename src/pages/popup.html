@@ -27,9 +27,7 @@
       }
     }
 
-    .fade-in {
-      animation: fadeIn 0.3s ease-in-out;
-    }
+
   </style>
 </head>
 
@@ -37,7 +35,11 @@
   <!-- Header -->
   <div class="header">
     <div class="header-title">
-      <span>Page Summarizer</span>
+      <!-- <span>Page Summarizer</span> -->
+       <span>
+      <select id="profileContainer" name="profile" class="model-select">
+      </select>
+       </span>
     </div>
 
     <div class="header-buttons">
@@ -58,13 +60,12 @@
 
   <!-- Content -->
   <div class="content">
-    <!-- Profile Section (Hidden) -->
-    <div class="hidden">
-      <span class="section-label">
-        Profile
-      </span>
-      <div class="profile-container" id="profileContainer"></div>
-    </div>
+    <!-- Profile Section -->
+    <!-- <div class="profileContainer"> -->
+      <!-- <span class="section-label">Profile</span> -->
+      <!-- <select id="profileContainer" name="profile" class="model-select"> -->
+      <!-- </select> -->
+    <!-- </div> -->
 
     <!-- Model Section (Hidden) -->
     <div class="hidden">

@@ -358,32 +358,41 @@ document.addEventListener('DOMContentLoaded', async function () {
       return a.localeCompare(b);
     });
 
-    // Clear existing buttons
+    // Clear existing options
     profileContainer.innerHTML = '';
 
-    sortedProfiles.forEach(async (profileName) => {
-      const button = document.createElement('button');
-      button.className = 'profile-button btn btn-sm btn-outline-secondary text-nowrap';
-      button.textContent = profileName;
+    // Add default option
+    const defaultOption = document.createElement('option');
+    defaultOption.value = '';
+    defaultOption.textContent = '-- Select Profile --';
+    profileContainer.appendChild(defaultOption);
 
-      // Add click event listener for profile buttons
-      button.addEventListener('click', async () => {
-        await selectProfile(profileName);
-      });
-
-      profileContainer.appendChild(button);
-
+    // Add profile options
+    sortedProfiles.forEach((profileName) => {
+      const option = document.createElement('option');
+      option.value = profileName;
+      option.textContent = profileName;
+      
+      // Mark as selected if it's the last used profile
       if (profileName === lastUsedProfile) {
-        const profileKey = `profile__${profileName}`;
-        const profileData = await chrome.storage.sync.get(profileKey);
-        setModel(profileData[profileKey].model);
+        option.selected = true;
       }
+      
+      profileContainer.appendChild(option);
+    });
+
+    // Add change event listener for profile selection
+    profileContainer.addEventListener('change', async () => {
+      const selectedProfileName = profileContainer.value;
+      await selectProfile(selectedProfileName);
     });
 
     // Automatically select a profile if necessary
     if (lastUsedProfile) {
+      profileContainer.value = lastUsedProfile;
       await selectProfile(lastUsedProfile);
     } else if (defaultProfile) {
+      profileContainer.value = defaultProfile;
       await selectProfile(defaultProfile);
     }
   }
@@ -391,17 +400,6 @@ document.addEventListener('DOMContentLoaded', async function () {
   // Update the model and instructions when the profile changes
   async function selectProfile(selectedProfileName) {
     currentProfile = selectedProfileName;
-
-    // Update the active profile button classes
-    const buttons = profileContainer.getElementsByClassName('btn');
-
-    for (const button of buttons) {
-      if (button.textContent === currentProfile) {
-        button.className = 'btn btn-sm m-1 text-nowrap btn-outline-primary active';
-      } else {
-        button.className = 'btn btn-sm m-1 text-nowrap btn-outline-secondary';
-      }
-    }
 
     // Save the selected profile name locally
     await chrome.storage.local.set({ lastUsedProfile: selectedProfileName });
