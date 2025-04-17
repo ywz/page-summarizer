@@ -574,3 +574,23 @@ body.config-page {
 .fade-in {
   animation: fadeIn 0.3s ease-in-out;
 }
+
+/* Lighter styling for header buttons */
+.header-button {
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.header-button:hover {
+  opacity: 1;
+}
+
+/* Lighter styling for send button */
+.send-button {
+  opacity: 0.85;
+  transition: opacity 0.2s ease;
+}
+
+.send-button:hover {
+  opacity: 1;
+}
